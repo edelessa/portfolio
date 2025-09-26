@@ -1,422 +1,315 @@
-import { 
-  Box, 
-  Container, 
-  Typography, 
-  Grid, 
-  Paper, 
-  TextField, 
-  Button, 
-  Avatar,
-  Chip,
-  Divider
-} from '@mui/material';
+import { Box, Container, Typography, TextField, Button, Grid, Paper } from '@mui/material';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { useInView } from 'react-intersection-observer';
 import EmailIcon from '@mui/icons-material/Email';
 import PhoneIcon from '@mui/icons-material/Phone';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import GitHubIcon from '@mui/icons-material/GitHub';
 import SendIcon from '@mui/icons-material/Send';
+import { useState } from 'react';
 
 const MotionBox = motion(Box);
-const MotionButton = motion(Button);
+const MotionTypography = motion(Typography);
 const MotionPaper = motion(Paper);
+const MotionButton = motion(Button);
 
 function Contact() {
+  const { ref, inView } = useInView({
+    triggerOnce: true,
+    threshold: 0.1,
+  });
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     subject: '',
-    message: ''
+    message: '',
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null);
+
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission here
-    console.log('Form submitted:', formData);
-    // Reset form
-    setFormData({ name: '', email: '', subject: '', message: '' });
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+
+    try {
+      const response = await fetch('http://localhost:3001/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setSubmitStatus({ type: 'success', message: 'Message sent successfully! I\'ll get back to you soon.' });
+        setFormData({ name: '', email: '', subject: '', message: '' });
+      } else {
+        setSubmitStatus({ type: 'error', message: result.error || 'Failed to send message' });
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      setSubmitStatus({ type: 'error', message: 'Failed to send message. Please try again.' });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  const contactInfo = [
-    {
-      icon: EmailIcon,
-      label: 'Email',
-      value: 'edel.m.waters@gmail.com',
-      color: '#20b2aa',
-      href: 'mailto:edel.m.waters@gmail.com'
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
     },
-    {
-      icon: PhoneIcon,
-      label: 'Phone',
-      value: '+1 612 800 3348',
-      color: '#ff6b35',
-      href: 'tel:+16128003348'
-    },
-    {
-      icon: LocationOnIcon,
-      label: 'Location',
-      value: 'Minneapolis, MN',
-      color: '#ffd23d'
-    },
-    {
-      icon: LinkedInIcon,
-      label: 'LinkedIn',
-      value: 'linkedin.com/in/edel-mahamood',
-      color: '#9caf88',
-      href: 'https://www.linkedin.com/in/edel-mahamood/'
-    }
-  ];
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+  };
 
   return (
-    <Box sx={{ 
-      py: 8, 
-      background: 'linear-gradient(135deg, #0a0f0a 0%, #1a2a1a 50%, #2a3a2a 100%)',
-      minHeight: '100vh'
-    }}>
-      <Container maxWidth="lg">
-        {/* Header */}
+    <Box
+      ref={ref}
+      sx={{
+        py: 8,
+        background: 'linear-gradient(135deg, #0f1419 0%, #1a2332 100%)',
+        minHeight: '100vh',
+        color: 'text.primary',
+      }}
+    >
+      <Container maxWidth="md">
         <MotionBox
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          sx={{ textAlign: 'center', mb: 8 }}
+          variants={containerVariants}
+          initial="hidden"
+          animate={inView ? "visible" : "hidden"}
+          sx={{ textAlign: 'center', mb: 6 }}
         >
-          <Typography 
-            variant="h1" 
+          <MotionTypography
+            variant="h2"
             gutterBottom
             sx={{
-              mb: 4,
-              fontSize: { xs: '2.5rem', md: '4rem' },
-              fontWeight: 800,
+              background: 'linear-gradient(135deg, #ffd23d 30%, #ff6b35 90%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              fontWeight: 700,
+              mb: 2,
             }}
+            variants={itemVariants}
           >
             Get In Touch
-          </Typography>
-          <Typography 
-            variant="h5" 
-            sx={{ 
-              color: '#e8f4f8',
-              maxWidth: 600,
+          </MotionTypography>
+          <MotionTypography
+            variant="body1"
+            sx={{
+              mb: 4,
+              maxWidth: 800,
               mx: 'auto',
-              lineHeight: 1.6,
+              fontSize: '1.2rem',
+              color: 'text.secondary',
+              lineHeight: 1.7,
             }}
+            variants={itemVariants}
           >
-            Ready to collaborate on your next project? Let's discuss how we can bring your ideas to life.
-          </Typography>
+            Have a question or want to work together? Feel free to reach out!
+          </MotionTypography>
         </MotionBox>
 
-        <Grid container spacing={8}>
-          {/* Contact Information */}
-          <Grid item xs={12} md={5}>
-            <MotionBox
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
+        <Grid container spacing={4}>
+          <Grid item xs={12} md={6}>
+            <MotionPaper
+              variants={itemVariants}
+              initial="hidden"
+              animate={inView ? "visible" : "hidden"}
+              transition={{ delay: 0.4 }}
+              sx={{
+                p: 4,
+                backgroundColor: 'background.paper',
+                borderRadius: 3,
+                boxShadow: '0 8px 24px rgba(0,0,0,0.2)',
+                border: '1px solid rgba(255,107,53,0.2)',
+                height: '100%',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+              }}
             >
-              <Paper
-                elevation={0}
-                sx={{
-                  p: 6,
-                  background: 'rgba(26, 42, 26, 0.4)',
-                  backdropFilter: 'blur(25px)',
-                  border: '2px solid rgba(32, 178, 170, 0.2)',
-                  borderRadius: 4,
-                  height: 'fit-content',
-                }}
-              >
-                <Typography 
-                  variant="h4" 
-                  sx={{ 
-                    color: '#ffffff', 
-                    mb: 4, 
-                    fontWeight: 700 
-                  }}
-                >
-                  Let's Connect
+              <Box>
+                <Typography variant="h4" gutterBottom sx={{ color: 'primary.main', mb: 3 }}>
+                  Contact Information
                 </Typography>
-                <Typography 
-                  variant="body1" 
-                  sx={{ 
-                    color: '#b8c5a6', 
-                    mb: 6, 
-                    lineHeight: 1.6 
-                  }}
-                >
-                  I'm always interested in new opportunities and exciting projects. 
-                  Feel free to reach out through any of the channels below.
-                </Typography>
-
-                {contactInfo.map((info, index) => (
-                  <MotionBox
-                    key={info.label}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
-                    sx={{ mb: 4 }}
-                  >
-                    <Box 
-                      component={info.href ? 'a' : 'div'}
-                      href={info.href}
-                      target={info.href ? '_blank' : undefined}
-                      rel={info.href ? 'noopener noreferrer' : undefined}
-                      sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 3,
-                        p: 2,
-                        borderRadius: 2,
-                        textDecoration: 'none',
-                        transition: 'all 0.3s ease',
-                        '&:hover': info.href ? {
-                          background: 'rgba(32, 178, 170, 0.1)',
-                          transform: 'translateX(5px)',
-                        } : {},
-                        cursor: info.href ? 'pointer' : 'default',
-                      }}
-                    >
-                      <Avatar
-                        sx={{
-                          width: 50,
-                          height: 50,
-                          background: `linear-gradient(135deg, ${info.color} 0%, rgba(255, 255, 255, 0.1) 100%)`,
-                        }}
-                      >
-                        <info.icon sx={{ color: 'white', fontSize: 24 }} />
-                      </Avatar>
-                      <Box>
-                        <Typography variant="h6" sx={{ color: '#ffffff', fontWeight: 600 }}>
-                          {info.label}
-                        </Typography>
-                        <Typography 
-                          variant="body1" 
-                          sx={{ 
-                            color: info.href ? '#20b2aa' : '#b8c5a6',
-                            '&:hover': info.href ? { color: '#40e0d0' } : {},
-                          }}
-                        >
-                          {info.value}
-                        </Typography>
-                      </Box>
-                    </Box>
-                  </MotionBox>
-                ))}
-
-                <Divider sx={{ my: 4, borderColor: 'rgba(32, 178, 170, 0.2)' }} />
-
-                <Typography 
-                  variant="h6" 
-                  sx={{ 
-                    color: '#ffffff', 
-                    mb: 3, 
-                    fontWeight: 600 
-                  }}
-                >
-                  Quick Response
-                </Typography>
-                <Typography 
-                  variant="body2" 
-                  sx={{ 
-                    color: '#b8c5a6', 
-                    lineHeight: 1.6 
-                  }}
-                >
-                  I typically respond to messages within 24 hours. For urgent matters, 
-                  feel free to call or text directly.
-                </Typography>
-              </Paper>
-            </MotionBox>
-          </Grid>
-
-          {/* Contact Form */}
-          <Grid item xs={12} md={7}>
-            <MotionBox
-              initial={{ opacity: 0, x: 30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-            >
-              <Paper
-                elevation={0}
-                sx={{
-                  p: 6,
-                  background: 'rgba(26, 42, 26, 0.4)',
-                  backdropFilter: 'blur(25px)',
-                  border: '2px solid rgba(32, 178, 170, 0.2)',
-                  borderRadius: 4,
-                }}
-              >
-                <Typography 
-                  variant="h4" 
-                  sx={{ 
-                    color: '#ffffff', 
-                    mb: 4, 
-                    fontWeight: 700 
-                  }}
-                >
-                  Send a Message
-                </Typography>
-
-                <Box component="form" onSubmit={handleSubmit}>
-                  <Grid container spacing={3}>
-                    <Grid item xs={12} sm={6}>
-                      <TextField
-                        fullWidth
-                        label="Name"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        required
-                        sx={{
-                          '& .MuiOutlinedInput-root': {
-                            color: '#ffffff',
-                            '& fieldset': {
-                              borderColor: 'rgba(32, 178, 170, 0.3)',
-                            },
-                            '&:hover fieldset': {
-                              borderColor: 'rgba(32, 178, 170, 0.5)',
-                            },
-                            '&.Mui-focused fieldset': {
-                              borderColor: '#20b2aa',
-                            },
-                          },
-                          '& .MuiInputLabel-root': {
-                            color: '#b8c5a6',
-                            '&.Mui-focused': {
-                              color: '#20b2aa',
-                            },
-                          },
-                        }}
-                      />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <TextField
-                        fullWidth
-                        label="Email"
-                        name="email"
-                        type="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        required
-                        sx={{
-                          '& .MuiOutlinedInput-root': {
-                            color: '#ffffff',
-                            '& fieldset': {
-                              borderColor: 'rgba(32, 178, 170, 0.3)',
-                            },
-                            '&:hover fieldset': {
-                              borderColor: 'rgba(32, 178, 170, 0.5)',
-                            },
-                            '&.Mui-focused fieldset': {
-                              borderColor: '#20b2aa',
-                            },
-                          },
-                          '& .MuiInputLabel-root': {
-                            color: '#b8c5a6',
-                            '&.Mui-focused': {
-                              color: '#20b2aa',
-                            },
-                          },
-                        }}
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <TextField
-                        fullWidth
-                        label="Subject"
-                        name="subject"
-                        value={formData.subject}
-                        onChange={handleChange}
-                        required
-                        sx={{
-                          '& .MuiOutlinedInput-root': {
-                            color: '#ffffff',
-                            '& fieldset': {
-                              borderColor: 'rgba(32, 178, 170, 0.3)',
-                            },
-                            '&:hover fieldset': {
-                              borderColor: 'rgba(32, 178, 170, 0.5)',
-                            },
-                            '&.Mui-focused fieldset': {
-                              borderColor: '#20b2aa',
-                            },
-                          },
-                          '& .MuiInputLabel-root': {
-                            color: '#b8c5a6',
-                            '&.Mui-focused': {
-                              color: '#20b2aa',
-                            },
-                          },
-                        }}
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <TextField
-                        fullWidth
-                        label="Message"
-                        name="message"
-                        multiline
-                        rows={6}
-                        value={formData.message}
-                        onChange={handleChange}
-                        required
-                        sx={{
-                          '& .MuiOutlinedInput-root': {
-                            color: '#ffffff',
-                            '& fieldset': {
-                              borderColor: 'rgba(32, 178, 170, 0.3)',
-                            },
-                            '&:hover fieldset': {
-                              borderColor: 'rgba(32, 178, 170, 0.5)',
-                            },
-                            '&.Mui-focused fieldset': {
-                              borderColor: '#20b2aa',
-                            },
-                          },
-                          '& .MuiInputLabel-root': {
-                            color: '#b8c5a6',
-                            '&.Mui-focused': {
-                              color: '#20b2aa',
-                            },
-                          },
-                        }}
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <MotionButton
-                        type="submit"
-                        variant="contained"
-                        size="large"
-                        startIcon={<SendIcon />}
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        sx={{
-                          px: 6,
-                          py: 2,
-                          fontSize: '1.2rem',
-                          fontWeight: 700,
-                          borderRadius: 3,
-                          background: 'linear-gradient(135deg, #1a4d1a 0%, #20b2aa 100%)',
-                          '&:hover': {
-                            background: 'linear-gradient(135deg, #2d6b2d 0%, #40e0d0 100%)',
-                            boxShadow: '0 12px 35px rgba(32, 178, 170, 0.4)',
-                          },
-                        }}
-                      >
-                        Send Message
-                      </MotionButton>
-                    </Grid>
-                  </Grid>
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                  <EmailIcon sx={{ color: 'secondary.main', mr: 2 }} />
+                  <Typography variant="body1" sx={{ color: 'text.primary' }}>
+                    edel.m.waters@gmail.com
+                  </Typography>
                 </Box>
-              </Paper>
-            </MotionBox>
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                  <PhoneIcon sx={{ color: 'secondary.main', mr: 2 }} />
+                  <Typography variant="body1" sx={{ color: 'text.primary' }}>
+                    +1 612 800 3348
+                  </Typography>
+                </Box>
+                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                  <LocationOnIcon sx={{ color: 'secondary.main', mr: 2 }} />
+                  <Typography variant="body1" sx={{ color: 'text.primary' }}>
+                    Minneapolis, MN, USA
+                  </Typography>
+                </Box>
+              </Box>
+              <Box sx={{ mt: 4 }}>
+                <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                  I'm always open to new opportunities and collaborations. Let's connect!
+                </Typography>
+              </Box>
+            </MotionPaper>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <MotionPaper
+              variants={itemVariants}
+              initial="hidden"
+              animate={inView ? "visible" : "hidden"}
+              transition={{ delay: 0.6 }}
+              sx={{
+                p: 4,
+                backgroundColor: 'background.paper',
+                borderRadius: 3,
+                boxShadow: '0 8px 24px rgba(0,0,0,0.2)',
+                border: '1px solid rgba(255,210,61,0.2)',
+                height: '100%',
+              }}
+            >
+              <Typography variant="h4" gutterBottom sx={{ color: 'primary.main', mb: 3 }}>
+                Send a Message
+              </Typography>
+              
+              {/* Status Messages */}
+              {submitStatus && (
+                <Box
+                  sx={{
+                    p: 2,
+                    mb: 3,
+                    borderRadius: 2,
+                    backgroundColor: submitStatus.type === 'success' ? 'rgba(76, 175, 80, 0.1)' : 'rgba(244, 67, 54, 0.1)',
+                    border: `1px solid ${submitStatus.type === 'success' ? '#4caf50' : '#f44336'}`,
+                    color: submitStatus.type === 'success' ? '#4caf50' : '#f44336',
+                  }}
+                >
+                  {submitStatus.message}
+                </Box>
+              )}
+
+              <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                <TextField
+                  label="Your Name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  fullWidth
+                  required
+                  variant="outlined"
+                  InputLabelProps={{ style: { color: 'text.secondary' } }}
+                  InputProps={{ style: { color: 'text.primary' } }}
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      '& fieldset': { borderColor: 'rgba(255,210,61,0.4)' },
+                      '&:hover fieldset': { borderColor: 'warning.main' },
+                      '&.Mui-focused fieldset': { borderColor: 'warning.main' },
+                    },
+                  }}
+                />
+                <TextField
+                  label="Your Email"
+                  name="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  fullWidth
+                  required
+                  variant="outlined"
+                  InputLabelProps={{ style: { color: 'text.secondary' } }}
+                  InputProps={{ style: { color: 'text.primary' } }}
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      '& fieldset': { borderColor: 'rgba(255,210,61,0.4)' },
+                      '&:hover fieldset': { borderColor: 'warning.main' },
+                      '&.Mui-focused fieldset': { borderColor: 'warning.main' },
+                    },
+                  }}
+                />
+                <TextField
+                  label="Subject"
+                  name="subject"
+                  value={formData.subject}
+                  onChange={handleChange}
+                  fullWidth
+                  variant="outlined"
+                  InputLabelProps={{ style: { color: 'text.secondary' } }}
+                  InputProps={{ style: { color: 'text.primary' } }}
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      '& fieldset': { borderColor: 'rgba(255,210,61,0.4)' },
+                      '&:hover fieldset': { borderColor: 'warning.main' },
+                      '&.Mui-focused fieldset': { borderColor: 'warning.main' },
+                    },
+                  }}
+                />
+                <TextField
+                  label="Your Message"
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  fullWidth
+                  required
+                  multiline
+                  rows={4}
+                  variant="outlined"
+                  InputLabelProps={{ style: { color: 'text.secondary' } }}
+                  InputProps={{ style: { color: 'text.primary' } }}
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      '& fieldset': { borderColor: 'rgba(255,210,61,0.4)' },
+                      '&:hover fieldset': { borderColor: 'warning.main' },
+                      '&.Mui-focused fieldset': { borderColor: 'warning.main' },
+                    },
+                  }}
+                />
+                <MotionButton
+                  type="submit"
+                  variant="contained"
+                  endIcon={<SendIcon />}
+                  fullWidth
+                  disabled={isSubmitting}
+                  sx={{
+                    mt: 2,
+                    background: 'linear-gradient(45deg, #ffd23d 30%, #ff6b35 90%)',
+                    color: 'white',
+                    fontWeight: 600,
+                    '&:hover': {
+                      background: 'linear-gradient(45deg, #ff6b35 30%, #ffd23d 90%)',
+                      boxShadow: '0 6px 12px rgba(255,210,61,0.4)',
+                    },
+                    '&:disabled': {
+                      background: 'rgba(0,0,0,0.12)',
+                      color: 'rgba(0,0,0,0.26)',
+                    },
+                  }}
+                  whileHover={{ scale: isSubmitting ? 1 : 1.02 }}
+                  whileTap={{ scale: isSubmitting ? 1 : 0.98 }}
+                >
+                  {isSubmitting ? 'Sending...' : 'Send Message'}
+                </MotionButton>
+              </Box>
+            </MotionPaper>
           </Grid>
         </Grid>
       </Container>
