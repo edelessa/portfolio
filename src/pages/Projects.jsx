@@ -20,7 +20,6 @@ import {
 } from '@mui/material';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import GitHubIcon from '@mui/icons-material/GitHub';
-import LaunchIcon from '@mui/icons-material/Launch';
 import CodeIcon from '@mui/icons-material/Code';
 import StorageIcon from '@mui/icons-material/Storage';
 import PaletteIcon from '@mui/icons-material/Palette';
@@ -54,7 +53,7 @@ function Projects() {
       image: '/project1.svg',
       technologies: ['React', 'Zustand', 'CSS3', 'Material-UI', 'JavaScript'],
       github: 'https://github.com/yourusername/artvault',
-      live: 'https://artvault.com',
+
       color: '#1a4d1a',
       features: [
         'Zustand state management',
@@ -74,7 +73,7 @@ function Projects() {
       image: '/project2.svg',
       technologies: ['React', 'CSS3', 'JavaScript', 'Animation'],
       github: 'https://github.com/yourusername/wrinkles-game',
-      live: 'https://wrinkles-game.com',
+
       color: '#ff6b35',
       features: [
         'CSS keyframe animations',
@@ -94,7 +93,7 @@ function Projects() {
       image: '/project3.svg',
       technologies: ['React', 'Node.js', 'SQL', 'Stripe', 'Material-UI'],
       github: 'https://github.com/yourusername/ecommerce',
-      live: 'https://ecommerce-demo.com',
+
       color: '#9caf88',
       features: [
         'Payment integration with Stripe',
@@ -114,7 +113,7 @@ function Projects() {
       image: '/project4.svg',
       technologies: ['React', 'Zustand', 'CSS3', 'API', 'Material-UI'],
       github: 'https://github.com/yourusername/task-manager',
-      live: 'https://taskmanager-demo.com',
+
       color: '#ffd23d',
       features: [
         'Drag-and-drop task organization',
@@ -134,7 +133,7 @@ function Projects() {
       image: '/project5.svg',
       technologies: ['React', 'API', 'CSS3', 'Charts', 'Material-UI'],
       github: 'https://github.com/yourusername/weather-dashboard',
-      live: 'https://weather-demo.com',
+
       color: '#20b2aa',
       features: [
         'Interactive weather charts',
@@ -154,7 +153,7 @@ function Projects() {
       image: '/project6.svg',
       technologies: ['React', 'Node.js', 'MongoDB', 'Socket.io', 'Material-UI'],
       github: 'https://github.com/yourusername/social-app',
-      live: 'https://social-demo.com',
+
       color: '#ff6b35',
       features: [
         'Real-time messaging',
@@ -523,30 +522,6 @@ function Projects() {
                         }}
                       >
                         Code
-                      </Button>
-                    </Tooltip>
-                    <Tooltip title="View Live Demo" arrow>
-                      <Button
-                        size="small"
-                        startIcon={<LaunchIcon />}
-                        href={project.live}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        variant="contained"
-                        sx={{
-                          background: 'linear-gradient(135deg, #1a4d1a 0%, #20b2aa 100%)',
-                          color: 'white',
-                          fontWeight: 700,
-                          fontSize: '0.9rem',
-                          padding: '8px 16px',
-                          '&:hover': {
-                            background: 'linear-gradient(135deg, #2d6b2d 0%, #40e0d0 100%)',
-                            transform: 'translateY(-2px)',
-                            boxShadow: '0 6px 20px rgba(32, 178, 170, 0.4)',
-                          },
-                        }}
-                      >
-                        Live Demo
                       </Button>
                     </Tooltip>
                   </CardActions>
