@@ -10,6 +10,10 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import PsychologyIcon from '@mui/icons-material/Psychology';
 import BuildIcon from '@mui/icons-material/Build';
 import PublicIcon from '@mui/icons-material/Public';
+import CoffeeIcon from '@mui/icons-material/Coffee';
+import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
+import AccessibilityIcon from '@mui/icons-material/Accessibility';
+import GroupIcon from '@mui/icons-material/Group';
 
 const MotionBox = motion(Box);
 const MotionPaper = motion(Paper);
@@ -24,19 +28,26 @@ function About() {
   const skills = [
     'JavaScript (ES6+)',
     'React',
-    'Zustand',
     'Node.js',
-    'Express',
+    'Zustand',
     'SQL',
     'HTML5',
     'CSS3',
     'REST APIs'
   ];
 
+  const background = [
+    'Classroom teaching experience',
+    'Braille instruction',
+    'Communication bridge building',
+    'Cross-functional collaboration'
+  ];
+
   const interests = [
-    'Speaking at tech conferences',
-    'Contributing to open source projects',
-    'Exploring emerging technologies'
+    'Mentoring others',
+    'Contributing to open source',
+    'Exploring frontend frameworks',
+    'Speaking at tech conferences'
   ];
 
   return (
@@ -84,8 +95,8 @@ function About() {
               fontWeight: 400,
             }}
           >
-            Hi, I'm <strong>Edel Mahamood (Ru)</strong> — a Full Stack Software Engineer based in <strong>Minneapolis, MN</strong>, 
-            passionate about crafting exceptional digital experiences through clean code, thoughtful design, and modern web technologies.
+            Hi, I'm <strong>Edel Mahamood (Ru)</strong> — a Minneapolis-based Full Stack Software Engineer 
+            who codes with purpose and empathy.
           </MotionTypography>
         </MotionBox>
 
@@ -151,19 +162,29 @@ function About() {
                 }}
               >
                 <Typography variant="h4" sx={{ color: '#ffffff', mb: 4, fontWeight: 800, fontSize: '2rem' }}>
-                  Who I Am
+                  My Journey
                 </Typography>
                 <Typography variant="body1" sx={{ color: '#e8f4f8', mb: 3, lineHeight: 1.7, fontSize: '1.1rem' }}>
-                  I'm a curious, problem-solving developer with a love for building scalable and user-centered web applications. 
-                  My journey started with a fascination for how things work, evolving into a career focused on developing 
-                  intuitive, accessible, and responsive digital products.
+                  I'm not your typical developer. Before diving into full-stack development, I spent years in classrooms, 
+                  brailling lessons, guiding learners, and building communication bridges — all of which now power my 
+                  approach to inclusive, user-centered digital design.
+                </Typography>
+                <Typography variant="body1" sx={{ color: '#e8f4f8', mb: 3, lineHeight: 1.7, fontSize: '1.1rem' }}>
+                  Today, I build accessible, scalable web applications using <strong>JavaScript (ES6+), React, Node.js, Zustand, SQL</strong>, 
+                  and more. I'm just as comfortable writing clean code as I am refactoring legacy logic or collaborating 
+                  across cross-functional teams.
+                </Typography>
+                <Typography variant="body1" sx={{ color: '#e8f4f8', lineHeight: 1.7, fontSize: '1.1rem' }}>
+                  My tech toolkit is modern, my design sense is sharp, and my drive to learn is relentless. Whether it's 
+                  debugging complex APIs or presenting animated UI transitions at tech conferences (hi, MinnieBar!), 
+                  I bring clarity, creativity, and intention to everything I build.
                 </Typography>
               </Paper>
             </MotionBox>
           </Grid>
         </Grid>
 
-        {/* What I Do Section */}
+        {/* Background Experience Section */}
         <MotionBox
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -181,13 +202,52 @@ function About() {
             }}
           >
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 4 }}>
-              <BuildIcon sx={{ color: '#ff6b35', fontSize: 32 }} />
+              <SchoolOutlinedIcon sx={{ color: '#ff6b35', fontSize: 32 }} />
               <Typography variant="h4" sx={{ color: '#ffffff', fontWeight: 800, fontSize: '2rem' }}>
-                What I Do
+                My Unique Background
               </Typography>
             </Box>
             <Typography variant="body1" sx={{ color: '#e8f4f8', mb: 4, lineHeight: 1.7, fontSize: '1.1rem' }}>
-              I specialize in full stack development using tools like:
+              My diverse experience in education and accessibility has shaped my approach to development:
+            </Typography>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+              {background.map((item, index) => (
+                <Box key={item} sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                  <AccessibilityIcon sx={{ color: '#ff6b35', fontSize: 24 }} />
+                  <Typography variant="body1" sx={{ color: '#e8f4f8', lineHeight: 1.7, fontSize: '1.1rem' }}>
+                    <strong>{item}</strong>
+                  </Typography>
+                </Box>
+              ))}
+            </Box>
+          </Paper>
+        </MotionBox>
+
+        {/* Technical Skills Section */}
+        <MotionBox
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.8 }}
+          sx={{ mb: 10 }}
+        >
+          <Paper
+            elevation={0}
+            sx={{
+              p: 6,
+              background: 'rgba(26, 42, 26, 0.4)',
+              backdropFilter: 'blur(25px)',
+              border: '2px solid rgba(32, 178, 170, 0.2)',
+              borderRadius: 4,
+            }}
+          >
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 4 }}>
+              <BuildIcon sx={{ color: '#20b2aa', fontSize: 32 }} />
+              <Typography variant="h4" sx={{ color: '#ffffff', fontWeight: 800, fontSize: '2rem' }}>
+                Technical Expertise
+              </Typography>
+            </Box>
+            <Typography variant="body1" sx={{ color: '#e8f4f8', mb: 4, lineHeight: 1.7, fontSize: '1.1rem' }}>
+              I specialize in modern full-stack development with a focus on accessibility and user experience:
             </Typography>
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, mb: 4 }}>
               {skills.map((skill) => (
@@ -195,9 +255,9 @@ function About() {
                   key={skill}
                   label={skill}
                   sx={{
-                    backgroundColor: 'rgba(255, 107, 53, 0.2)',
-                    color: '#ff6b35',
-                    border: '1px solid rgba(255, 107, 53, 0.3)',
+                    backgroundColor: 'rgba(32, 178, 170, 0.2)',
+                    color: '#20b2aa',
+                    border: '1px solid rgba(32, 178, 170, 0.3)',
                     fontWeight: 600,
                     fontSize: '1rem',
                     padding: '8px 16px',
@@ -206,10 +266,6 @@ function About() {
                 />
               ))}
             </Box>
-            <Typography variant="body1" sx={{ color: '#e8f4f8', lineHeight: 1.7, fontSize: '1.1rem' }}>
-              Whether it's creating smooth front-end interfaces or building efficient back-end systems, 
-              I care deeply about writing clean, maintainable code that powers real-world solutions.
-            </Typography>
           </Paper>
         </MotionBox>
 
@@ -217,7 +273,7 @@ function About() {
         <MotionBox
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.8 }}
+          transition={{ duration: 0.8, delay: 1.0 }}
           sx={{ mb: 10 }}
         >
           <Paper
@@ -231,13 +287,13 @@ function About() {
             }}
           >
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 4 }}>
-              <PublicIcon sx={{ color: '#ffd23d', fontSize: 32 }} />
+              <CoffeeIcon sx={{ color: '#ffd23d', fontSize: 32 }} />
               <Typography variant="h4" sx={{ color: '#ffffff', fontWeight: 800, fontSize: '2rem' }}>
                 Beyond the Code
               </Typography>
             </Box>
             <Typography variant="body1" sx={{ color: '#e8f4f8', mb: 3, lineHeight: 1.7, fontSize: '1.1rem' }}>
-              Outside of building software, I enjoy:
+              When I'm not coding, I'm probably:
             </Typography>
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
               {interests.map((interest, index) => (
@@ -249,14 +305,17 @@ function About() {
                 </Box>
               ))}
             </Box>
+            <Typography variant="body1" sx={{ color: '#e8f4f8', mt: 3, lineHeight: 1.7, fontSize: '1.1rem', fontStyle: 'italic' }}>
+              — all fueled by strong coffee and stronger curiosity.
+            </Typography>
           </Paper>
         </MotionBox>
 
-        {/* Let's Build Something Great Section */}
+        {/* Call to Action Section */}
         <MotionBox
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 1.0 }}
+          transition={{ duration: 0.8, delay: 1.2 }}
         >
           <Paper
             elevation={0}
@@ -270,12 +329,15 @@ function About() {
             }}
           >
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2, mb: 4 }}>
-              <PsychologyIcon sx={{ color: '#20b2aa', fontSize: 32 }} />
+              <GroupIcon sx={{ color: '#20b2aa', fontSize: 32 }} />
               <Typography variant="h4" sx={{ color: '#ffffff', fontWeight: 800, fontSize: '2rem' }}>
-                Let's Build Something Great
+                Let's Build Something Brilliant
               </Typography>
             </Box>
-            <Typography variant="body1" sx={{ color: '#e8f4f8', lineHeight: 1.7, fontSize: '1.1rem', maxWidth: 800, mx: 'auto' }}>
+            <Typography variant="h5" sx={{ color: '#e8f4f8', lineHeight: 1.7, fontSize: '1.3rem', fontWeight: 600, mb: 2 }}>
+              Let's build something brilliant, inclusive, and just a little bit unexpected.
+            </Typography>
+            <Typography variant="body1" sx={{ color: '#b8c5a6', lineHeight: 1.7, fontSize: '1.1rem', maxWidth: 800, mx: 'auto' }}>
               I'm always excited to collaborate on projects that make a difference — whether it's with a growing startup, 
               an established company, or an open-source community.
             </Typography>
