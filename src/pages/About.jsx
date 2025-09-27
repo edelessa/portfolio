@@ -14,6 +14,7 @@ import CoffeeIcon from '@mui/icons-material/Coffee';
 import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
 import AccessibilityIcon from '@mui/icons-material/Accessibility';
 import GroupIcon from '@mui/icons-material/Group';
+import BusinessIcon from '@mui/icons-material/Business';
 
 const MotionBox = motion(Box);
 const MotionPaper = motion(Paper);
@@ -48,6 +49,16 @@ function About() {
     'Contributing to open source',
     'Exploring frontend frameworks',
     'Speaking at tech conferences'
+  ];
+
+  const experiences = [
+    {
+      title: 'Software Engineer',
+      company: 'Tech Company',
+      period: '2021 - 2022',
+      description: 'Built scalable web applications with focus on performance and accessibility. Collaborated with cross-functional teams to deliver high-quality products.',
+      skills: ['JavaScript', 'Node.js', 'SQL', 'Git']
+    }
   ];
 
   return (
@@ -184,11 +195,89 @@ function About() {
           </Grid>
         </Grid>
 
-        {/* Background Experience Section */}
+        {/* Professional Experience Section */}
         <MotionBox
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.6 }}
+          sx={{ mb: 10 }}
+        >
+          <Typography 
+            variant="h3" 
+            sx={{ 
+              color: '#ffffff', 
+              mb: 6, 
+              textAlign: 'center',
+              fontWeight: 800,
+              fontSize: { xs: '2rem', md: '3rem' },
+            }}
+          >
+            Professional Experience
+          </Typography>
+          <Grid container spacing={4}>
+            {experiences.map((exp, index) => (
+              <Grid item xs={12} key={exp.title}>
+                <MotionPaper
+                  initial={{ opacity: 0, y: 30 }}
+                  animate={inView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.6, delay: 0.8 + index * 0.2 }}
+                  elevation={0}
+                  sx={{
+                    p: 4,
+                    background: 'rgba(26, 42, 26, 0.4)',
+                    backdropFilter: 'blur(25px)',
+                    border: '2px solid rgba(32, 178, 170, 0.2)',
+                    borderRadius: 4,
+                    '&:hover': {
+                      borderColor: 'rgba(32, 178, 170, 0.4)',
+                      transform: 'translateY(-5px)',
+                    },
+                  }}
+                >
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 3 }}>
+                    <BusinessIcon sx={{ color: '#20b2aa', fontSize: 32 }} />
+                    <Box>
+                      <Typography variant="h5" sx={{ color: '#ffffff', mb: 1, fontWeight: 800, fontSize: '1.4rem' }}>
+                        {exp.title}
+                      </Typography>
+                      <Typography variant="h6" sx={{ color: '#20b2aa', mb: 1, fontWeight: 700, fontSize: '1.2rem' }}>
+                        {exp.company}
+                      </Typography>
+                      <Typography variant="body2" sx={{ color: '#b8c5a6', fontSize: '1rem' }}>
+                        {exp.period}
+                      </Typography>
+                    </Box>
+                  </Box>
+                  <Typography variant="body1" sx={{ color: '#e8f4f8', mb: 3, lineHeight: 1.6, fontSize: '1.1rem' }}>
+                    {exp.description}
+                  </Typography>
+                  <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
+                    {exp.skills.map((skill) => (
+                      <Chip
+                        key={skill}
+                        label={skill}
+                        size="small"
+                        sx={{
+                          backgroundColor: 'rgba(32, 178, 170, 0.2)',
+                          color: '#20b2aa',
+                          border: '1px solid rgba(32, 178, 170, 0.3)',
+                          fontWeight: 600,
+                          fontSize: '0.9rem',
+                        }}
+                      />
+                    ))}
+                  </Box>
+                </MotionPaper>
+              </Grid>
+            ))}
+          </Grid>
+        </MotionBox>
+
+        {/* Background Experience Section */}
+        <MotionBox
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 0.8 }}
           sx={{ mb: 10 }}
         >
           <Paper
@@ -227,7 +316,7 @@ function About() {
         <MotionBox
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.8 }}
+          transition={{ duration: 0.8, delay: 1.0 }}
           sx={{ mb: 10 }}
         >
           <Paper
@@ -273,7 +362,7 @@ function About() {
         <MotionBox
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 1.0 }}
+          transition={{ duration: 0.8, delay: 1.2 }}
           sx={{ mb: 10 }}
         >
           <Paper
@@ -315,7 +404,7 @@ function About() {
         <MotionBox
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 1.2 }}
+          transition={{ duration: 0.8, delay: 1.4 }}
         >
           <Paper
             elevation={0}
