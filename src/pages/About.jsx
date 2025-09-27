@@ -3,7 +3,6 @@ import { Box, Container, Typography, Grid, Paper, Avatar, Chip, Divider } from '
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 import CodeIcon from '@mui/icons-material/Code';
-import SchoolIcon from '@mui/icons-material/School';
 import WorkIcon from '@mui/icons-material/Work';
 import StarIcon from '@mui/icons-material/Star';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
@@ -53,12 +52,37 @@ function About() {
 
   const experiences = [
     {
-      title: 'Software Engineer',
-      company: 'Tech Company',
-      period: '2021 - 2022',
-      description: 'Built scalable web applications with focus on performance and accessibility. Collaborated with cross-functional teams to deliver high-quality products.',
-      skills: ['JavaScript', 'Node.js', 'SQL', 'Git']
+      title: 'Full Stack Engineering Resident',
+      company: 'Prime Digital Academy',
+      period: 'Mar 2023 - Jun 2025',
+      description: 'Built full-stack web applications both individually and in agile teams using JavaScript, React, Node.js, Zustand, and SQL. Collaborated with real-world clients to deliver custom software solutions focused on performance, data optimization, and UX accessibility.',
+      skills: ['JavaScript', 'React', 'Node.js', 'Zustand', 'SQL', 'Agile', 'REST APIs']
+    },
+    {
+      title: 'Special Education Assistant',
+      company: 'Washburn High School',
+      period: 'Nov 2024 - Present',
+      description: 'Supported a blind student 1:1, applying accessibility best practices to modify lessons and ensure inclusive participation. Translated materials into braille for accessibility and guided learning with empathy and adaptability.',
+      skills: ['Accessibility', 'Braille Translation', 'Inclusive Design', 'Empathy-driven Development']
+    },
+    {
+      title: 'Property Manager & Marketing Coordinator',
+      company: 'Fia Properties',
+      period: 'Jun 2016 - Jan 2022',
+      description: 'Oversaw operations, contracts, and vendor management—building processes similar to managing software workflows. Introduced digital tools to improve client communication and streamline systems.',
+      skills: ['Process Management', 'Digital Tools', 'Client Communication', 'Systems Thinking']
     }
+  ];
+
+  const transferableSkills = [
+    'Accessibility & Inclusive Design',
+    'User-Centered Development',
+    'Cross-functional Collaboration',
+    'Agile Methodologies',
+    'Problem-Solving & Debugging',
+    'Communication & Documentation',
+    'Empathy-driven Development',
+    'Systems-level Thinking'
   ];
 
   return (
@@ -228,6 +252,7 @@ function About() {
                     backdropFilter: 'blur(25px)',
                     border: '2px solid rgba(32, 178, 170, 0.2)',
                     borderRadius: 4,
+                    mb: 3,
                     '&:hover': {
                       borderColor: 'rgba(32, 178, 170, 0.4)',
                       transform: 'translateY(-5px)',
@@ -273,11 +298,58 @@ function About() {
           </Grid>
         </MotionBox>
 
+        {/* Transferable Skills Section */}
+        <MotionBox
+          initial={{ opacity: 0, y: 30 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8, delay: 1.0 }}
+          sx={{ mb: 10 }}
+        >
+          <Paper
+            elevation={0}
+            sx={{
+              p: 6,
+              background: 'rgba(26, 42, 26, 0.4)',
+              backdropFilter: 'blur(25px)',
+              border: '2px solid rgba(255, 210, 61, 0.2)',
+              borderRadius: 4,
+            }}
+          >
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 4 }}>
+              <SchoolIcon sx={{ color: '#ffd23d', fontSize: 32 }} />
+              <Typography variant="h4" sx={{ color: '#ffffff', fontWeight: 800, fontSize: '2rem' }}>
+                Transferable Skills from Career Change
+              </Typography>
+            </Box>
+            <Typography variant="body1" sx={{ color: '#e8f4f8', mb: 4, lineHeight: 1.7, fontSize: '1.1rem' }}>
+              My diverse background in education, accessibility, and management has equipped me with unique skills 
+              that directly translate to software development:
+            </Typography>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
+              {transferableSkills.map((skill) => (
+                <Chip
+                  key={skill}
+                  label={skill}
+                  sx={{
+                    backgroundColor: 'rgba(255, 210, 61, 0.2)',
+                    color: '#ffd23d',
+                    border: '1px solid rgba(255, 210, 61, 0.3)',
+                    fontWeight: 600,
+                    fontSize: '1rem',
+                    padding: '8px 16px',
+                    height: 'auto',
+                  }}
+                />
+              ))}
+            </Box>
+          </Paper>
+        </MotionBox>
+
         {/* Background Experience Section */}
         <MotionBox
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.8 }}
+          transition={{ duration: 0.8, delay: 1.2 }}
           sx={{ mb: 10 }}
         >
           <Paper
@@ -316,7 +388,7 @@ function About() {
         <MotionBox
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 1.0 }}
+          transition={{ duration: 0.8, delay: 1.4 }}
           sx={{ mb: 10 }}
         >
           <Paper
@@ -362,7 +434,7 @@ function About() {
         <MotionBox
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 1.2 }}
+          transition={{ duration: 0.8, delay: 1.6 }}
           sx={{ mb: 10 }}
         >
           <Paper
@@ -404,7 +476,7 @@ function About() {
         <MotionBox
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 1.4 }}
+          transition={{ duration: 0.8, delay: 1.8 }}
         >
           <Paper
             elevation={0}
